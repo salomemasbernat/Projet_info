@@ -247,24 +247,20 @@ void Graph::update()
 
 */
 
+
+
+
+
     for (auto &elt : m_vertices)
         elt.second.post_update();
 
     for (auto &elt : m_edges)
         elt.second.post_update();
 
+    if(key[KEY_T] )
+    {
 
-
-           if(mouse_x > 20 && mouse_x <120 && mouse_y > 0 && mouse_y <120  )
-       {
-            supArete();
-            this->supArete();
-
-            for (auto &elt : m_vertices)
-                elt.second.pre_update();
-
-            for (auto &elt : m_edges)
-                elt.second.pre_update();
+        supArete();
 
             std::cout<<"WIN";
        }
@@ -303,13 +299,13 @@ void Graph::add_interfaced_edge(int idx, int id_vert1, int id_vert2, double weig
 
     EdgeInterface *ei = new EdgeInterface(m_vertices[id_vert1], m_vertices[id_vert2]);
     m_interface->m_main_box.add_child(ei->m_top_edge);
-    //m_edges[idx] = Edge(weight, ei);
+    m_edges[idx] = Edge(weight, ei);
     ///Correction
     m_edges[idx].m_from=id_vert1;
     m_edges[idx].m_to=id_vert2;
 
-    m_vertices[id_vert1].m_out.push_back(id_vert2);
-    m_vertices[id_vert2].m_in.push_back(id_vert1);
+    m_vertices[id_vert1].m_out.push_back(id_vert1);
+    m_vertices[id_vert2].m_in.push_back(id_vert2);
 
 }
 
@@ -318,12 +314,14 @@ void Graph::test_remove_edge(int eidx)
 {
     /// référence vers le Edge à enlever
     Edge &remed=m_edges.at(eidx);
+    std::cout << remed.m_interface << std::endl;
         std::cout << "Removing edge " << eidx << " " << remed.m_from << "->" << remed.m_to << " " << remed.m_weight << std::endl;
     /// Tester la cohérence : nombre d'arc entrants et sortants des sommets 1 et 2
     std::cout << m_vertices[remed.m_from].m_in.size() << " " << m_vertices[remed.m_from].m_out.size() << std::endl;
     std::cout << m_vertices[remed.m_to].m_in.size() << " " << m_vertices[remed.m_to].m_out.size() << std::endl;
     std::cout << m_edges.size() << std::endl;
     /// test : on a bien des éléments interfacés
+
     if (m_interface && remed.m_interface)
     {
         /// Ne pas oublier qu'on a fait ça à l'ajout de l'arc :
@@ -349,10 +347,10 @@ void Graph::test_remove_edge(int eidx)
     std::cout << m_vertices[remed.m_from].m_in.size() << " " << m_vertices[remed.m_from].m_out.size() << std::endl;
     std::cout << m_vertices[remed.m_to].m_in.size() << " " << m_vertices[remed.m_to].m_out.size() << std::endl;
     std::cout << m_edges.size() << std::endl;
+
 }
 
-
-// Lecture des fichiers textes
+// Lecture des fichiers textes:
 void Graph::lirefichier(std::string nomfichier,std::string dossier)
 {
     m_interface = std::make_shared<GraphInterface>(50, 0, 750, 600);
@@ -419,7 +417,8 @@ void Graph::lirefichier(std::string nomfichier,std::string dossier)
 }
 
 
-void Graph::addsommet() //Fonction qui ajoute un sommet
+//Fonction qui ajoute un sommet
+void Graph::addsommet()
 {
     // Declarer les variables
     std::string nom_sommet;
@@ -435,8 +434,8 @@ void Graph::addsommet() //Fonction qui ajoute un sommet
 
 }
 
-
-void Graph::addArete() // Fonction qui ajoute une arete entre deux sommets
+// Fonction qui ajoute une arete entre deux sommets
+void Graph::addArete()
 {
     // Declarer les variables
     int indice_s1, indice_s2;
@@ -451,7 +450,6 @@ void Graph::addArete() // Fonction qui ajoute une arete entre deux sommets
 
     // Fonction qui permet l'ajout d'une arete entre deux sommets
     add_interfaced_edge(m_edges.size(), indice_s1, indice_s2, poids);
-
 }
 
 /*
@@ -488,7 +486,6 @@ void Graph::supArete()
 {
     int indice_s1;
     int indice_s2;
-    int i;
     int indice_arete;
 
     std::cout << " Entrer l'indice du sommet de depart:";
@@ -496,22 +493,81 @@ void Graph::supArete()
     std::cout << " Entrer l'indice du sommet d'arrivee:";
     std::cin >> indice_s2;
 
-for (i=0; i<m_edges.size(); i++)
-{
+
         if ((m_vertices.count(indice_s1))+(m_vertices.count(indice_s2)) == 2)
         {
-            for  (auto elem : m_edges)
+            for  (auto &elem : m_edges)
             {
                 if (elem.second.m_from == indice_s1 && elem.second.m_to == indice_s2)
                 {
-                    indice_arete = elem.first;
-                    test_remove_edge(indice_arete);
+                    std::cout << "indice sommet suppression: " << elem.first << std::endl;
+                    test_remove_edge(elem.first);
+
                 }
             }
 
+
+
         }
+
 }
+
+
+std::string Graph::menu_jeu ()
+{
+    // On declare les variables:
+    BITMAP *image1;
+    BITMAP *image2;
+    BITMAP *buffer;
+    bool quitter = false;
+    int mouse_prec = 0;
+    int mouse_suiv = 0;
+    std::string path;
+
+    // On charge les bitmap:
+    buffer= create_bitmap(1024,700);
+    clear_bitmap(buffer);
+
+    image1= load_bitmap("menu1.jpg", NULL);
+    image2= load_bitmap("menu2.jpg", NULL);
+
+    while(!keypressed()) //Si on presse n'importe quelle touche
+    {
+        blit(image1, buffer, 0, 0, 0, 0, SCREEN_H, SCREEN_W); // je mets mon image sur le buffer
+        blit(buffer, screen, 0, 0, 0, 0, SCREEN_H, SCREEN_W); // je mets mon buffer sur le screen
+    }
+
+    clear_bitmap(buffer);
+    // Boucle de jeu
+
+    while(quitter == false)
+    {
+        blit(image2, buffer, 0, 0, 0, 0, SCREEN_H, SCREEN_W); // je mets mon image sur le buffer
+        blit(buffer, screen, 0, 0, 0, 0, SCREEN_H, SCREEN_W);
+
+        mouse_prec = mouse_suiv;
+        mouse_suiv = mouse_b&1;
+        //std::cout << "mouse x " <<mouse_x << std::endl;
+        //std::cout << "mouse y " <<mouse_y << std::endl;
+
+      // Jouer
+      if(mouse_suiv && !mouse_prec && (mouse_x>0) && (mouse_x<300) && (mouse_y>0) && (mouse_y<300))
+         {
+
+            path = "chaine1";
+            quitter = true;
+         }
+
+        // Je quitte le jeu
+        if(mouse_suiv && !mouse_prec && (mouse_x< 300) && (mouse_x<440) && (mouse_y>240) && (mouse_y<290))
+        {
+            quitter = true;
+            path = "quitter";
+        }
+    }
+    return path;
 }
+
 
 
 /*

@@ -324,8 +324,7 @@ class Graph
         void addArete();
         void supArete();
         void barreoutils();
-
-
+        std::string menu_jeu();
 
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void update();
