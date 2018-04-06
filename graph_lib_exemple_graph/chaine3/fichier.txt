@@ -1,0 +1,19 @@
+Chargement de chaine alimentaire 3 
+
+matruce d'adjacence 
+ordre 
+matrice vecteur -> 
+Sommet 1 : Lion.png
+Sommet 2 : ours.png
+
+vecteur arete
+
+
+
+6 Emmanuel Manuel Francois Alain Marine Christiane
+0 0 1 0 0 0
+0 0 0 1 0 1
+1 0 0 0 0 0
+0 0 0 0 0 0
+0 1 0 0 0 0
+0 0 0 0 0 0
