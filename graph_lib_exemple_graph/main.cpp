@@ -15,7 +15,7 @@ int main()
 {
     /// A appeler en 1er avant d'instancier des objets graphiques etc...
     grman::init();
-     Graph g;
+    Graph g;
 
     /// Le nom du répertoire où se trouvent les images à charger
 
@@ -35,9 +35,7 @@ int main()
         while ( !key[KEY_ESC] )
         {
             /// Il faut appeler les méthodes d'update des objets qui comportent des widgets
-            g.update();
-
-
+            g.update(deuxiemestring);
 
             /*if(mouse_x > 20 && mouse_x <120 && mouse_y > 0 && mouse_y <120  )
             {
@@ -47,8 +45,6 @@ int main()
             // Trouver les coordonnees de la souris
             //std::cout<<mouse_x;
             //std::cout<<" ";
-
-
 
             //g.addsommet(); // Quand on clique sur les coordonées
             //g.barreoutils();

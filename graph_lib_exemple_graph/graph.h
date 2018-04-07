@@ -269,6 +269,16 @@ class GraphInterface
         grman::WidgetText Tbouton1;
         grman::WidgetButton bouton2;
         grman::WidgetText Tbouton2;
+        grman::WidgetButton bouton3;
+        grman::WidgetText Tbouton3;
+        grman::WidgetButton bouton4;
+        grman::WidgetText Tbouton4;
+        grman::WidgetButton bouton5;
+        grman::WidgetText Tbouton5;
+        grman::WidgetButton bouton6;
+        grman::WidgetText Tbouton6;
+        grman::WidgetButton bouton7;
+        grman::WidgetText Tbouton7;
 
         //grman::WidgetBox m_tool_box2;
         //grman::WidgetButton bouton2;
@@ -298,6 +308,7 @@ class Graph
         std::map<int, Vertex> m_vertices;
         int m_ordre;
         int m_degres;
+        std::string path;
         /// le POINTEUR sur l'interface associée, nullptr -> pas d'interface
         std::shared_ptr<GraphInterface> m_interface = nullptr;
 
@@ -322,12 +333,14 @@ class Graph
         void lirefichier(std::string nomfichier, std::string dossier);
         void addsommet();
         void addArete();
+        void supSommet();
         void supArete();
         void barreoutils();
+        void sauvegarder(std::string dossier);
         std::string menu_jeu();
 
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
-        void update();
+        void update(std::string deuxiemestring);
 };
 
 

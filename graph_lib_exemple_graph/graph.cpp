@@ -116,6 +116,7 @@ void Edge::pre_update()
     m_interface->m_label_weight.set_message( std::to_string( (int)m_weight ) );
 }
 
+
 /// Gestion du Edge après l'appel à l'interface
 void Edge::post_update()
 {
@@ -125,7 +126,6 @@ void Edge::post_update()
     /// Reprendre la valeur du slider dans la donnée m_weight locale
     m_weight = m_interface->m_slider_weight.get_value();
 }
-
 
 
 /***************************************************
@@ -152,21 +152,67 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
 
     m_top_box.add_child(bouton1);
     bouton1.set_frame(0,0,90,90);//x,y,w,h
-    bouton1.set_bg_color(NOIR);
+    bouton1.set_bg_color(ROSECLAIR);
 
     m_top_box.add_child(Tbouton1);
-    Tbouton1.set_frame_pos(10,10);
-    Tbouton1.set_message("TEST");
-    Tbouton1.set_bg_color(BLANC);
+    Tbouton1.set_frame_pos(20,40);
+    Tbouton1.set_message("RETURN");
+    Tbouton1.set_bg_color(ROSECLAIR);
 
     m_top_box.add_child(bouton2);
     bouton2.set_frame(0,90,90,90);//x,y,w,h
-    bouton2.set_bg_color(ROUGE);
+    bouton2.set_bg_color(ROSESOMBRE);
 
     m_top_box.add_child(Tbouton2);
-    Tbouton2.set_frame_pos(10,150);
-    Tbouton2.set_message("PROUT");
-    Tbouton2.set_bg_color(BLANC);
+    Tbouton2.set_frame_pos(25,130);
+    Tbouton2.set_message("SAVE");
+    Tbouton2.set_bg_color(ROSESOMBRE);
+
+    m_top_box.add_child(bouton3);
+    bouton3.set_frame(0,180,90,90);//x,y,w,h
+    bouton3.set_bg_color(ROSECLAIR);
+
+    m_top_box.add_child(Tbouton3);
+    Tbouton3.set_frame_pos(25,220);
+    Tbouton3.set_message("QUIT");
+    Tbouton3.set_bg_color(ROSECLAIR);
+
+    m_top_box.add_child(bouton4);
+    bouton4.set_frame(0,270,90,90);//x,y,w,h
+    bouton4.set_bg_color(ROSESOMBRE);
+
+    m_top_box.add_child(Tbouton4);
+    Tbouton4.set_frame_pos(10,310);
+    Tbouton4.set_message("ADD VERTEX");
+    Tbouton4.set_bg_color(ROSESOMBRE);
+
+    m_top_box.add_child(bouton5);
+    bouton5.set_frame(0,360,90,90);//x,y,w,h
+    bouton5.set_bg_color(ROSECLAIR);
+
+    m_top_box.add_child(Tbouton5);
+    Tbouton5.set_frame_pos(10,400);
+    Tbouton5.set_message("ADD EDGE");
+    Tbouton5.set_bg_color(ROSECLAIR);
+
+    m_top_box.add_child(bouton6);
+    bouton6.set_frame(0,450,90,90);//x,y,w,h
+    bouton6.set_bg_color(ROSESOMBRE);
+
+    m_top_box.add_child(Tbouton6);
+    Tbouton6.set_frame_pos(5,490);
+    Tbouton6.set_message("DEL VERTEX");
+    Tbouton6.set_bg_color(ROSESOMBRE);
+
+    m_top_box.add_child(bouton7);
+    bouton7.set_frame(0,540,90,90);//x,y,w,h
+    bouton7.set_bg_color(ROSECLAIR);
+
+    m_top_box.add_child(Tbouton7);
+    Tbouton7.set_frame_pos(10,580);
+    Tbouton7.set_message("DEL EDGE");
+    Tbouton7.set_bg_color(ROSECLAIR);
+
 
     //m_top_box.add_child(bouton2);
     //bouton1.set_frame(0,400,100,100);//x,y,w,h
@@ -217,8 +263,9 @@ void Graph::make_example()
 
 }
 
+
 /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
-void Graph::update()
+void Graph::update(std::string deuxiemestring)
 {
     if (!m_interface)
         return;
@@ -231,40 +278,58 @@ void Graph::update()
 
     m_interface->m_top_box.update();
 
-    // Faire les if de bouton
-    //Exemple
-    /*if(m_boutton.clique())
-    {
-        lirefichier("/fichier1.txt", deuxiemestring);//Fonction pour charger
-        preupdate;
-
-    }
-    if(m_bouton.clique())
-    {
-        ajouter(); // Fonction ajouter qqch
-        preupdate;
-    }
-
-*/
-
-
-
-
-
     for (auto &elt : m_vertices)
         elt.second.post_update();
 
     for (auto &elt : m_edges)
         elt.second.post_update();
 
-    if(key[KEY_T] )
+     if(m_interface->bouton1.clicked()) //m_interface->m_sauvegarde.clicked()
     {
+        BITMAP *buffer;
+        buffer= create_bitmap(1024,768);
+        clear_bitmap(buffer);
+        menu_jeu();
+        std::cout<<"WIN";
+    }
 
+     if(m_interface->bouton2.clicked()) //m_interface->m_sauvegarde.clicked()
+    {
+        sauvegarder(deuxiemestring);
+        std::cout<<"WIN";
+    }
+
+     if(m_interface->bouton3.clicked()) //m_interface->m_sauvegarde.clicked()
+    {
         supArete();
+        std::cout<<"WIN";
+    }
 
-            std::cout<<"WIN";
-       }
+     if(m_interface->bouton4.clicked()) //m_interface->m_sauvegarde.clicked()
+    {
+        addsommet();
+        std::cout<<"WIN";
+    }
+
+     if(m_interface->bouton5.clicked()) //m_interface->m_sauvegarde.clicked()
+    {
+        addArete();
+        std::cout<<"WIN";
+    }
+
+     if(m_interface->bouton6.clicked()) //m_interface->m_sauvegarde.clicked()
+    {
+        supSommet();
+        std::cout<<"WIN";
+    }
+
+    if(m_interface->bouton7.clicked()) //m_interface->m_sauvegarde.clicked()
+    {
+        supArete();
+        std::cout<<"WIN";
+    }
 }
+
 
 /// Aide à l'ajout de sommets interfacés
 void Graph::add_interfaced_vertex(int idx, double value, int x, int y, std::string pic_name, int pic_idx )
@@ -281,6 +346,7 @@ void Graph::add_interfaced_vertex(int idx, double value, int x, int y, std::stri
     // On peut ajouter directement des vertices dans la map avec la notation crochet :
     m_vertices[idx] = Vertex(value, vi);
 }
+
 
 /// Aide à l'ajout d'arcs interfacés
 void Graph::add_interfaced_edge(int idx, int id_vert1, int id_vert2, double weight)
@@ -304,8 +370,8 @@ void Graph::add_interfaced_edge(int idx, int id_vert1, int id_vert2, double weig
     m_edges[idx].m_from=id_vert1;
     m_edges[idx].m_to=id_vert2;
 
-    m_vertices[id_vert1].m_out.push_back(id_vert1);
-    m_vertices[id_vert2].m_in.push_back(id_vert2);
+    m_vertices[id_vert1].m_out.push_back(idx);
+    m_vertices[id_vert2].m_in.push_back(idx);
 
 }
 
@@ -349,6 +415,7 @@ void Graph::test_remove_edge(int eidx)
     std::cout << m_edges.size() << std::endl;
 
 }
+
 
 // Lecture des fichiers textes:
 void Graph::lirefichier(std::string nomfichier,std::string dossier)
@@ -434,6 +501,7 @@ void Graph::addsommet()
 
 }
 
+
 // Fonction qui ajoute une arete entre deux sommets
 void Graph::addArete()
 {
@@ -452,34 +520,25 @@ void Graph::addArete()
     add_interfaced_edge(m_edges.size(), indice_s1, indice_s2, poids);
 }
 
-/*
-void Graph::supArete()
+
+void Graph :: supSommet()
 {
-    int indice_s1;
-    int indice_s2;
-    int i;
-    int indice_arete;
-
-    std::cout << " Entrer l'indice du sommet de depart:";
-    std::cin >> indice_s1;
-    std::cout << " Entrer l'indice du sommet d'arrivee:";
-    std::cin >> indice_s2;
-
-            for  (auto elem : m_edges)
-            {
-                if ((m_vertices.count(indice_s1))+(m_vertices.count(indice_s2)) == 2)
-        {
-
-
-                if (elem.second.m_from == indice_s1 && elem.second.m_to == indice_s2)
-                {
-                    indice_arete = elem.first;
-                    test_remove_edge(indice_arete);
-                }
-
-            }
-}}
-*/
+    int _s = 0;
+    // if (mouse_x<=400 && mouse_x>=200 && mouse_b &1 && mouse_y <=100 )
+    // {
+    std::cout << "Quel sommet voulez-vous supprimer?" << std::endl;
+    std::cin >> _s;
+    ///Si le sommet existe
+    if(m_vertices.count(_s) == 1)
+    {
+        for(int i = 0; i < m_vertices[_s].m_in.size();i++)
+            this->test_remove_edge(m_vertices[_s].m_in[i]);
+        for(int i = 0; i < m_vertices[_s].m_out.size();i++)
+             this->test_remove_edge(m_vertices[_s].m_out[i]);
+    }
+    m_interface->m_main_box.remove_child( m_vertices[_s].m_interface->m_top_box );
+    m_vertices.erase(_s);
+}
 
 
 void Graph::supArete()
@@ -506,10 +565,49 @@ void Graph::supArete()
                 }
             }
 
+        }
+}
 
 
+void Graph::sauvegarder(std::string dossier)
+{
+  //  std::string nomfichier;
+/*    if(path == "chaine1")
+        nomfichier = "fichier.txt";
+    if(path == "chaine2")
+        nomfichier = "fichier.txt";
+    if(path == "chaine3")
+        nomfichier = "fichier.txt";
+*/
+
+    std::string nomfichier = "fichier.txt";
+    std::cout << "on est dans la sauvegarde" << std::endl;
+    std::string chemin = dossier + nomfichier;
+    std::ofstream nouveau_fichier(chemin, std::ios::out | std::ios::trunc);
+
+    if(nouveau_fichier)
+    {
+        nouveau_fichier << m_vertices.size() << std::endl;
+        for(unsigned int i=0 ; i < m_vertices.size() ; i++)
+        {
+            std::string name;
+            name = m_vertices[i].m_interface->m_img.get_pic_name();
+            //name.erase(name.end()-4, name.end());
+            //std::cout << m_vertices[i].m_value << " " << name << " " << m_vertices[i].m_interface->m_top_box.get_posx() << " " <<  m_vertices[i].m_interface->m_top_box.get_posy() << " " <<std::endl;
+            nouveau_fichier << i << " "<< name <<" "<< m_vertices[i].m_value << " " << m_vertices[i].m_interface->m_top_box.get_posx() << " " <<  m_vertices[i].m_interface->m_top_box.get_posy() << " " << std::endl;
+            //std::cout << "coucou";
         }
 
+       nouveau_fichier << m_edges.size() << std::endl;
+       std::cout << "size = " << m_edges.size() << std::endl;
+        for(auto &elem : m_edges)
+        {
+            nouveau_fichier << elem.first << " " << elem.second.m_from << " " << elem.second.m_to << " " << elem.second.m_weight << std::endl;
+        }
+        nouveau_fichier.close();
+    }
+    else
+        std::cout << "erreur lors de l'enregistrement" << std::endl;
 }
 
 
@@ -525,7 +623,7 @@ std::string Graph::menu_jeu ()
     std::string path;
 
     // On charge les bitmap:
-    buffer= create_bitmap(1024,700);
+    buffer= create_bitmap(1024,768);
     clear_bitmap(buffer);
 
     image1= load_bitmap("menu1.jpg", NULL);
@@ -535,16 +633,17 @@ std::string Graph::menu_jeu ()
     {
         blit(image1, buffer, 0, 0, 0, 0, SCREEN_H, SCREEN_W); // je mets mon image sur le buffer
         blit(buffer, screen, 0, 0, 0, 0, SCREEN_H, SCREEN_W); // je mets mon buffer sur le screen
+
     }
 
     clear_bitmap(buffer);
     // Boucle de jeu
-
     while(quitter == false)
     {
-        blit(image2, buffer, 0, 0, 0, 0, SCREEN_H, SCREEN_W); // je mets mon image sur le buffer
-        blit(buffer, screen, 0, 0, 0, 0, SCREEN_H, SCREEN_W);
 
+        blit(image2, buffer, 0, 0, 0, 0, SCREEN_H, SCREEN_W); // je mets mon image sur le buffer
+
+        blit(buffer, screen, 0, 0, 0, 0, SCREEN_H, SCREEN_W);
         mouse_prec = mouse_suiv;
         mouse_suiv = mouse_b&1;
         //std::cout << "mouse x " <<mouse_x << std::endl;
@@ -567,134 +666,3 @@ std::string Graph::menu_jeu ()
     }
     return path;
 }
-
-
-
-/*
-void Graph::barreoutils()
-{
-    //Decalaration variables
-    int color;
-    int mouse_prec;
-    int mouse_suiv;
-
-
-    // Declarer les btimap
-    BITMAP *page;
-    BITMAP *add_sommet;
-    BITMAP *add_arete;
-    BITMAP *retour_menu;
-    BITMAP *quitter;
-    BITMAP *collision;
-    BITMAP *bmp;
-
-    //Initialisation allegro
-    page= create_bitmap(SCREEN_W,SCREEN_H);
-    clear_bitmap(page);
-
-    // Chargement des bitmaps c'est a dire des images
-
-     collision=load_bitmap("sommet.jpg", NULL);
-    if (!collision)
-    {
-        allegro_message("IMAGE INTROUVABLE");
-        allegro_exit();
-        exit(EXIT_FAILURE);
-    }
-
-
-    add_sommet=load_bitmap("sommet.jpg", NULL);
-    if (!add_sommet)
-    {
-        allegro_message("IMAGE INTROUVABLE");
-        allegro_exit();
-        exit(EXIT_FAILURE);
-    }
-
-    add_arete=load_bitmap("arete.jpg", NULL);
-    if (!add_arete)
-    {
-        allegro_message("IMAGE INTROUVABLE");
-        allegro_exit();
-        exit(EXIT_FAILURE);
-    }
-
-    retour_menu=load_bitmap("menu.jpg", NULL);
-    if (!retour_menu)
-    {
-        allegro_message("IMAGE INTROUVABLE");
-        allegro_exit();
-        exit(EXIT_FAILURE);
-    }
-
-    quitter=load_bitmap("quitter.jpg", NULL);
-    if (!quitter)
-    {
-        allegro_message("IMAGE INTROUVABLE");
-        allegro_exit();
-        exit(EXIT_FAILURE);
-    }
-
-    bmp=create_bitmap(SCREEN_W,SCREEN_H);
-    clear_bitmap(page);
-
-    //Afficher les boutons de la barre d'outils
-    draw_sprite(bmp, add_sommet, 10, 10);
-    draw_sprite(bmp, add_arete, 50, 10);
-    draw_sprite(bmp, retour_menu, 90, 10);
-    draw_sprite(bmp, quitter, 130, 10);
-
-
-    //Recuperer la couleur de la carte de collision
-    color= getpixel(collision, mouse_x, mouse_y);
-
-    mouse_prec= mouse_suiv;
-    mouse_suiv= mouse_b;
-
-    // si la souris est sur la position de la case alors....
-
-    if( color== makecol(0, 255, 0))
-       {
-           if (!(mouse_prec&1)&&(mouse_suiv&1))
-        {
-
-        }
-       }
-
-    if( color== makecol(255, 255, 0))
-       {
-           if (!(mouse_prec&1)&&(mouse_suiv&1))
-        {
-            int s1, s2, weight;
-            std::cout << "Entrez l'indice du sommet de depart" << std::endl;
-            std::cin >> s1;
-            std::cout << "Entrez l'indice du sommet d'arrivee" << std::endl;
-            std::cin >> s2;
-            std::cout << "Entrez le poids de l'arete" << std::endl;
-            std::cin >> weight;
-            add_interfaced_edge(m_vertices.end(idx+1), s1, s2, weight);
-
-        }
-       }
-
-    if (color== makecol(255,0,0))
-       {
-           if (!(mouse_prec&1)&&(mouse_suiv&1))
-           {
-
-           }
-       }
-
-    if(color== makecol(0,0,255))
-       {
-           if (!(mouse_prec&1)&&(mouse_suiv&1))
-           {
-               allegro_exit();
-               exit(EXIT_SUCCESS);
-           }
-       }
-
-    blit(bmp,screen,0,0,0,0,SCREEN_W,SCREEN_H);
-
-}
-*/

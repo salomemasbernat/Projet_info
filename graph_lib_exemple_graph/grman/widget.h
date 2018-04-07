@@ -333,7 +333,7 @@ class WidgetImage : public Widget
 
         virtual void reframe();
         void set_pic_name(std::string pic_name) { m_pic_name = pic_name; reframe(); }
-
+        std::string get_pic_name(){return m_pic_name;}
         void set_animate(bool ani=true) { m_animate = ani; }
         void set_animate_tempo(int tempo) { m_animate_tempo = tempo; }
 
