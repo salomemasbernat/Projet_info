@@ -2,14 +2,9 @@
 #include <iostream>
 
 #include "graph.h"
-
-std::string menu (){
-    std::string path;
-    //menu_jeu();
-    std::cout<< "Entrer le nom de la chaine alimentaire:"<< std::endl;
-    std::cin >> path;
-    return path;
-}
+/// MASBERNAT Salome- ROBILLARD Julia
+/// Sources: Cours de Mr Segado, Cours de Mme Palasi, Reference C++, Open class room
+/// Travail en collaboration avec l'equipe 11 du td7 ( Levanah MASBERNAT, Alice BORIE, Mathieu BAUMAS).
 
 int main()
 {
@@ -18,20 +13,18 @@ int main()
     Graph g;
 
     /// Le nom du répertoire où se trouvent les images à charger
-
+    // Appel du menu du jeu
     std::string deuxiemestring = g.menu_jeu();
     std::cout << "deuxiemestring =" << deuxiemestring << std::endl;
     if(deuxiemestring!="quitter")
     {
         grman::set_pictures_path(deuxiemestring);
 
-    /// Un exemple de graphe
-    //g.make_example();
-
+        /// Lecture du fichier texte
         g.lirefichier("/fichier.txt", deuxiemestring);
 
-    /// Vous gardez la main sur la "boucle de jeu"
-    /// ( contrairement à des frameworks plus avancés )
+        /// Vous gardez la main sur la "boucle de jeu"
+        /// ( contrairement à des frameworks plus avancés )
         while ( !key[KEY_ESC] )
         {
             /// Il faut appeler les méthodes d'update des objets qui comportent des widgets
@@ -46,12 +39,8 @@ int main()
             //std::cout<<mouse_x;
             //std::cout<<" ";
 
-            //g.addsommet(); // Quand on clique sur les coordonées
-            //g.barreoutils();
-
             /// Mise à jour générale (clavier/souris/buffer etc...)
-
-        grman::mettre_a_jour();
+            grman::mettre_a_jour();
         }
     }
 

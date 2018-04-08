@@ -414,6 +414,7 @@ class WidgetEdge : public Widget
         std::vector<ArrowItem> m_items;
 
         int m_color = GRISSOMBRE;
+
         int m_thickness = 2;
 
         // Position relative des éventuels Widgets enfants le long de l'arc, 0 origine, 0.5 milieu, 1.0 destination
@@ -423,6 +424,8 @@ class WidgetEdge : public Widget
         double m_children_lateral = 16;
 
     public :
+
+        //int m_color;
 
         virtual void draw();
 
